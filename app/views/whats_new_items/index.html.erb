@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>What's New Editor</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <%= stylesheet_link_tag "index" %>
+
+  </head>
+  
+
+  <body>
+<div class="container-fluid">
+  <div class="page-header">
+    <h1> What's New Editor </h1>
+  </div>
+    <div class="panel panel-default">
+      <div class="panel-heading"><h2> Live Release What's New </h2></div>
+      <table class="table connectedSortable" id="live_release">
+	<thead>
+	  <tr>
+            <th class="col-md-2"> Title </th>
+            <th class="col-md-4"> Description </th>
+            <th class="col-md-1"> Experiment </th>
+            <th class="col-md-1"> Link </th>
+            <th class="col-md-1"> Start Date </th>
+            <th class="col-md-1"> End Date </th>
+            <th class="col-md-2"></th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <% for item in @whats_new_live do %>
+	    <tr class="item" id= <%= item.id %>>
+	      <td><%= item.title %></td>
+	      <td><%= item.description %></td>
+	      <td><%= item.experiment %></td>
+	      <td><%= item.link %></td>
+	      <td><%= item.start_date %></td>
+	      <td><%= item.end_date %></td>
+	      <td>
+                <%= link_to "Edit", edit_whats_new_item_path(item), class: "btn btn-primary",  role:"button"  %>
+		<%= link_to "Delete", whats_new_item_path(item), class: "btn btn-danger",  role:"button", method: :delete, remote: true %>
+	      </td>
+	    </tr>
+	  <% end %>  
+	</tbody>
+      </table>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><h2> Internal Release What's New </h2></div>
+      <table class="table connectedSortable" id="internal_release">
+	<thead>
+          <tr>
+            <th class="col-md-2"> Title </th>
+            <th class="col-md-4"> Description </th>
+            <th class="col-md-1"> Experiment </th>
+            <th class="col-md-1"> Link </th>
+            <th class="col-md-1"> Start Date </th>
+            <th class="col-md-1"> End Date </th>
+	    <th class="col-md-2"></th>
+	  </tr>
+	  </thead>
+	<tbody>
+          <% for item in @whats_new_internal do %>
+            <tr class="item" id= <%= item.id %>>
+              <td><%= item.title %></td>
+              <td><%= item.description %></td>
+              <td><%= item.experiment %></td>
+	      <td><%= item.link %></td>
+	      <td><%= item.start_date %></td>
+	      <td><%= item.end_date %></td>
+              <td>
+                <%= link_to "Edit", edit_whats_new_item_path(item), class: "btn btn-primary",  role:"button" %>
+                <%= link_to "Delete", whats_new_item_path(item), class: "btn btn-danger",  role:"button", method: :delete, remote: true %>
+              </td>
+            </tr>
+          <% end %>
+	</tbody>
+      </table>
+    </div>
+    <%= link_to "Add Another Item",  new_whats_new_item_path(@item), class: "btn btn-info", role:"button", id: "add" %>
+</div>
+
+    <script>
+      var fixHelper = function(e, ui) {
+        ui.children().each(function() {
+        $(this).width($(this).width());
+        });
+        return ui;
+      };
+  
+      $(".connectedSortable").sortable({
+        items: "tbody > tr",
+        helper: "fixHelper",
+        axis: "y",
+        connectWith: ".connectedSortable",
+        dropOnEmpty: true,
+        receive: function(e, ui){
+          $(this).find("tbody").append(ui.item);   
+        },
+        stop : function(e, ui){
+          newOrder = new Array();
+          $('#internal_release tr.item').each(function( index ) {
+            id = $(this).attr('id');
+            newOrder.push({'id':id, 'release': 'internal', 'position': index});
+         }); 
+         $('#live_release tr.item').each(function( index ) {
+            id = $(this).attr('id');
+            newOrder.push({'id':id, 'release': 'live', 'position': index});
+          });
+       }
+
+      });
+      
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+  </body>
+</html>

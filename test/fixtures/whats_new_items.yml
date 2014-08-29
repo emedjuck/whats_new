@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyText
+  description: MyText
+  experiment: MyString
+  link: MyString
+  start_date: 2014-07-17
+  end_date: 2014-07-17
+  release: MyString
+  position: 1
+
+two:
+  title: MyText
+  description: MyText
+  experiment: MyString
+  link: MyString
+  start_date: 2014-07-17
+  end_date: 2014-07-17
+  release: MyString
+  position: 1
